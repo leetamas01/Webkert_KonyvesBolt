@@ -1,0 +1,18 @@
+<form [formGroup]="cartForm" (ngSubmit)="submitOrder()">
+  
+    <mat-form-field appearance="outline">
+      <mat-label>Ország</mat-label>
+      <mat-select formControlName="country">
+        <mat-option value="hu">Magyarország</mat-option>
+        <mat-option value="de">Németország</mat-option>
+        <mat-option value="us">USA</mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-checkbox formControlName="acceptTerms">Elfogadom a vásárlási feltételeket</mat-checkbox>
+  
+    <mat-divider></mat-divider>
+  
+    <button mat-flat-button color="primary" type="submit">Rendelés leadása</button>
+  </form>
+  
