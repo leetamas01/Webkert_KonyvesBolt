@@ -10,9 +10,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { M } from '@angular/cdk/keycodes';
 import { User } from '../../user';
+import { AuthService } from '../../shared/services/auth.service';
+
 
 @Component({
   selector: 'app-registration',
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -39,44 +42,67 @@ export class RegistrationComponent {
 
   isLoading = false;
   showForm = true;
-  singupError = '';
+  signupError = '';
 
-  constructor(private router: Router,private snackBar: MatSnackBar) {}
-  
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
+
   signup(): void {
-    if (this.signUpForm.invalid){
-      this.singupError = "Please correct the form errors before submitting.";
+    if (this.signUpForm.invalid) {
+      this.signupError = 'Please correct any errors on the form before submitting.';
       return;
     }
-    const password = this.signUpForm.get('password');
-    const rePassword = this.signUpForm.get('rePassword');
-  
-    if (password?.value != rePassword?.value){
+
+    const password = this.signUpForm.get('password')?.value;
+    const rePassword = this.signUpForm.get('rePassword')?.value;
+    
+    if (password !== rePassword) {
+      this.signupError = 'The passwords do not match.';
       return;
     }
-  
+
     this.isLoading = true;
     this.showForm = false;
-    
-    const newUser: User = {
+
+    const userData: Partial<User> = {
       name: {
         firstname: this.signUpForm.value.name?.firstname || '',
-        lastname: this.signUpForm.value.name?.lastname || '',
+        lastname: this.signUpForm.value.name?.lastname || ''
       },
       email: this.signUpForm.value.email || '',
-      password: this.signUpForm.value.password || '',
-      tasks: [],
-      completed_taks: []
+      cart: [],
     };
-    
-    this.snackBar.open('Sikeres regisztráció!', 'OK', { duration: 3000 });
 
-    console.log('New user:', newUser);
-    console.log('Form value: ', this.signUpForm.value);
+    const email = this.signUpForm.value.email || '';
+    const pw = this.signUpForm.value.password || '';
 
-    setTimeout(() => {
-      this.router.navigateByUrl('/home');
-    }, 2000);
+    this.authService.signUp(email, pw, userData)
+      .then(userCredential => {
+        console.log('Registration succesful:', userCredential.user);
+        this.authService.updateLoginStatus(true);
+        this.router.navigateByUrl('/home');
+      })
+      .catch(error => {
+        console.error('Regisztrációs hiba:', error);
+        this.isLoading = false;
+        this.showForm = true;
+        
+        switch(error.code) {
+          case 'auth/email-already-in-use':
+            this.signupError = 'This email already in use.';
+            break;
+          case 'auth/invalid-email':
+            this.signupError = 'Invalid email.';
+            break;
+          case 'auth/weak-password':
+            this.signupError = 'The password is too weak. Use at least 6 characters.';
+            break;
+          default:
+            this.signupError = 'An error has occurred during registration. Please try again later.';
+        }
+      });
   }
 
  

@@ -12,7 +12,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { CommonModule } from '@angular/common';
+import { AuthService } from './shared/services/auth.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -37,6 +39,25 @@ import { MatDividerModule } from '@angular/material/divider';
 })
 export class AppComponent {
   title = 'BookShop';
+  isLoggedIn = false;
+  private authSubscription?: Subscription;
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authSubscription = this.authService.currentUser.subscribe(user => {
+      this.isLoggedIn = !!user;
+      localStorage.setItem('isLoggedIn', this.isLoggedIn ? 'true' : 'false');
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.authSubscription?.unsubscribe();
+  }
+
+  logout(): void {
+    this.authService.signOut();
+  }
 
   onToggleSidenav(sidenav: MatSidenav){
     sidenav.toggle();

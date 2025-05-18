@@ -1,10 +1,10 @@
 export interface User {
+   id: string;
    name: {
     firstname: string;
     lastname: string;
    };
    email: string;
    password: string;
-   tasks: any[];
-   completed_taks: any[];
+   cart: any[];
 }
