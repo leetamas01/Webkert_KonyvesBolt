@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 # Konyvesbolt
 
+=======
+# Könyv webshop
+# KonyvesBoltProject
+# host-url: https://konyvesbolt-89b12.web.app
+>>>>>>> b2ce6bcec08fe7878970e73dc9206c5d6ba508f6
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.6.
 
 ## Development server
