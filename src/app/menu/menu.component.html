@@ -11,6 +11,15 @@
     <mat-icon matListItemIcon>done_all</mat-icon>
     <span matListItemTitle>cart</span>
   </a>
+  <a mat-list-item routerLink="/book" routerLinkActive="active-list-item" (click)="closeMenu()">
+  <mat-icon matListItemIcon>book</mat-icon>
+  <span matListItemTitle>Könyv hozzáadás</span>
+</a>
+
+<a mat-list-item routerLink="/book-list" routerLinkActive="active-list-item" (click)="closeMenu()">
+  <mat-icon matListItemIcon>menu_book</mat-icon>
+  <span matListItemTitle>Könyv lista</span>
+</a>
   @if (isLoggedIn) {
     <a mat-list-item routerLink="/profile" routerLinkActive="active-list-item" (click)="closeMenu()">
       <mat-icon matListItemIcon>person</mat-icon>

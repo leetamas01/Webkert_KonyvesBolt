@@ -3,6 +3,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegistrationComponent } from './pages/registration/registration.component';
 import { LoginComponent } from './pages/login/login.component';
+import { BookComponent } from './book/book.component';
+import { BookListComponent } from './book-list/book-list.component';
 
 export const routes: Routes = [
     {
@@ -22,8 +24,12 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/registration/registration.component').then(m =>m.RegistrationComponent)
     },
     {
-        path: 'cart',
-        loadComponent: () => import('./pages/cart/cart.component').then(m =>m.CartComponent)
+        path: 'book',
+        loadComponent: () => import('./book/book.component').then(m =>m.BookComponent)
+    },
+    {
+        path: 'book-list',
+        loadComponent: () => import('./book-list/book-list.component').then(m =>m.BookListComponent)
     },
     {
         path: '',

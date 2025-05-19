@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit {
   changePage() {
     this.router.navigateByUrl("/login");
   }
-
 }
 
 

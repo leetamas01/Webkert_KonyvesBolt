@@ -1,0 +1,36 @@
+<div class="p-4">
+  <h2>Könyv hozzáadása / szerkesztése</h2>
+
+  <form (ngSubmit)="onSubmit()" #bookForm="ngForm">
+    <label>Cím:</label>
+    <input type="text" [(ngModel)]="currentBook.title" name="title" required />
+
+    <label>Szerző:</label>
+    <input type="text" [(ngModel)]="currentBook.author" name="author" required />
+
+    <label>Műfaj:</label>
+    <input type="text" [(ngModel)]="currentBook.genre" name="genre" required />
+
+    <label>Kiadási év:</label>
+    <input type="number" [(ngModel)]="currentBook.publishedYear" name="publishedYear" required />
+
+    <button type="submit" [disabled]="bookForm.invalid">
+      {{ currentBook.id ? 'Frissítés' : 'Hozzáadás' }}
+    </button>
+    <button type="button" (click)="resetForm()">Mégse</button>
+  </form>
+
+  <hr />
+
+  <h2>Könyvek listája</h2>
+  <ul>
+    <li *ngFor="let book of books">
+      <strong>{{ book.title }}</strong> – {{ book.author }} ({{ book.publishedYear }}) – {{ book.genre }}
+      <button (click)="editBook(book)">Edit</button>
+      <button (click)="deleteBook(book.id)">Delete</button>
+    </li>
+  </ul>
+</div>
+
+
+

@@ -1,0 +1,21 @@
+<div class="p-4">
+  <h2>Könyvek</h2>
+
+  <label>Műfaj szűrés:</label>
+  <select [(ngModel)]="selectedGenre" (change)="filterByGenre()">
+    <option value="">-- Válassz --</option>
+    <option *ngFor="let g of genres" [value]="g">{{ g }}</option>
+  </select>
+
+  <button (click)="sortByAuthor()">Szerző szerint rendezés (pl. Rowling)</button>
+  <button (click)="loadNewestBooks()">Legújabb könyvek</button>
+
+  <ul>
+    <li *ngFor="let book of books">
+      <strong>{{ book.title }}</strong> – {{ book.author }} ({{ book.publishedYear }}) – {{ book.genre }}
+    </li>
+  </ul>
+
+  <button (click)="nextPage()">Következő oldal</button>
+</div>
+
